@@ -26,8 +26,20 @@ public class MessageService {
         messageDao.addMessage(message);
     }
     
+     public void updateMessage(Message message){          
+        messageDao.updateMessage(message);
+    }
+    
     public List<Message> findAll(){
         return messageDao.finedAll();
+    }
+    
+    public List <Message> getMessagesByUserId(int id){
+        return messageDao.getMessagesByUserId(id);
+    }
+    
+    public Message getMessageById(int id){
+        return messageDao.getMessageById(id);
     }
     
 }

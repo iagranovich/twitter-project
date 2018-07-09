@@ -23,7 +23,7 @@
         <!--<csrf disabled= "true"/>-->
     </http>
     
-    <!--
+    <!-- Если храним пользователей в конфиге
     <authentication-manager>
         <authentication-provider>
             <user-service>
@@ -33,6 +33,11 @@
     </authentication-manager>
     -->
     
+    <!-- 
+        Если храним пользователей в БД. 
+        Используются дефолтные запросы,
+        но можно и переопределить.
+    -->
     <authentication-manager>
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"/>                

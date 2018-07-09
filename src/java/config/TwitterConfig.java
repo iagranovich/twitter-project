@@ -7,13 +7,18 @@ package config;
 
 import controller.MainController;
 import dao.MessageDao;
+import dao.PagnDao;
+import dao.PagnDaoImpl;
 import dao.UserDao;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import service.MessageService;
+import service.PagnService;
+import service.PagnServiceImpl;
 import service.UserService;
 
 /**
@@ -62,6 +67,21 @@ public class TwitterConfig {
     @Bean
     public UserDao userDao(){
         return new UserDao();
+    }
+    
+    @Bean
+    public PagnDao pagnDao(){
+        return new PagnDaoImpl();
+    }
+    
+    @Bean
+    public PagnService pagnService(){
+        return new PagnServiceImpl();
+    }
+    
+    @Bean
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(){
+        return new NamedParameterJdbcTemplate(dataSource());
     }
             
 }

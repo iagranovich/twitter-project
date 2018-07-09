@@ -29,12 +29,12 @@
         </property>
     </bean>
     -->
-    
+    <!--
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
-
+    -->
     <!--
     The index controller.
     -->
@@ -43,6 +43,20 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
     -->
+    
+    <!-- Resolver for Tiles -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+    </bean>
+    
+    <!-- Config for Tiles -->
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-config.xml</value>
+            </list>
+        </property>             
+    </bean>     
     
     <mvc:annotation-driven/>
     <context:component-scan base-package="config"/> 

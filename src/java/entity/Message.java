@@ -5,15 +5,31 @@
  */
 package entity;
 
+import javax.validation.constraints.Size;
+
 /**
  *
  * @author user129
  */
+
 public class Message {
     
     int id;
-    String date;
+    String date;    
+    
+    @Size(max=250, message="Сообщение превышает 250 символов!")
     String text;
+    
+    String username;
+    
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }      
 
     public int getId() {
         return id;
