@@ -7,6 +7,7 @@ package dao;
 
 import entity.Message;
 import java.util.List;
+import java.util.ArrayList;
 import mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class MessageDao {
     
     @Autowired
-    JdbcTemplate jdbcTemplate; //why fianl??
+    JdbcTemplate jdbcTemplate;
     
     
     public void addMessage(Message message){
@@ -48,4 +49,25 @@ public class MessageDao {
         String sql ="SELECT * FROM messages WHERE id=?";
         return jdbcTemplate.queryForObject(sql, new MessageMapper(), id);
     }
+    
+    public List <Message> getMessagesFromRetweetsByUserId(int id){
+        String sql = "SELECT m.id, m.date, m.text, m.user_name " +
+                     "FROM messages AS m INNER JOIN retweets AS r " +
+                     "ON m.id=r.message_id " +
+                     "WHERE r.user_name=(" +
+                     "SELECT username FROM users WHERE id=?)";
+        
+        return jdbcTemplate.query(sql, new MessageMapper(), id);
+    }
+    
+    public List <Message> getMessagesAndRetweetsByUserId(int id){
+        
+        List<Message> mr = new ArrayList<>();
+        mr.addAll(getMessagesByUserId(id));
+        mr.addAll(getMessagesFromRetweetsByUserId(id));
+        
+        return mr;
+    }
+    
+    
 }

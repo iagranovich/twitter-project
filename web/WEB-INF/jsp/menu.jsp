@@ -2,11 +2,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
-<table class="table table-sm">        
+<table class="table table-sm bg-light">        
     <td>
     <nav class="nav">
 
-        <a class="nav-link" href="/twitter-project">Главная</a>           
+        <a class="nav-link" href="/twitter-project">ГЛАВНАЯ</a>           
 
     </nav>
     </td>
@@ -15,7 +15,7 @@
     <nav class="nav justify-content-end"> 
         
         <security:authorize access="isAnonymous()">     
-            <a class="nav-link" href="/twitter-project/login">Войти</a>
+            <a class="nav-link" href="/twitter-project/login">ВОЙТИ</a>
         </security:authorize> 
                 
         
@@ -29,7 +29,7 @@
 
                 <input type="hidden" name="${_csrf.parameterName}"value="${_csrf.token}" /> 
 
-                <a class="nav-link" href="" onclick="document.forms['exit'].submit()">Выход</a>
+                <a class="nav-link" href="" onclick="document.forms['exit'].submit()">ВЫХОД</a>
 
             </form>
                 

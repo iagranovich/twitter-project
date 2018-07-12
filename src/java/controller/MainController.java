@@ -6,9 +6,12 @@
 package controller;
 
 import entity.Message;
+import entity.Retweet;
 import entity.User;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import service.MessageService;
 import service.PagnService;
+import service.RetweetService;
 import service.UserService;
 
 /**
@@ -35,21 +39,31 @@ public class MainController {
     @Autowired
     UserService userService;
     
+    @Autowired
+    RetweetService retweetService;
     
+        
     @RequestMapping({"/","/index"})
     public String index(Model model){
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        model.addAttribute("retweets", retweetService.getRetweetsByUserName(name));
         model.addAttribute("message", new Message());
-        //model.addAttribute("messages", messageService.findAll());        
-        model.addAttribute("list", pagnService.list());
+        model.addAttribute("list", messageService.findAll());        
+        //model.addAttribute("list", pagnService.list());
         
         return "message";
     }
     
+    //переделать на url "/message/new"
     @RequestMapping(method=RequestMethod.POST, value="/index")
     public String addMessage(@Valid @ModelAttribute("message") Message message, BindingResult bindingResult, Model model){       
         
-        //model.addAttribute("messages", messageService.findAll());
-        model.addAttribute("list", pagnService.list());    
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        model.addAttribute("retweets", retweetService.getRetweetsByUserName(name));
+        model.addAttribute("list", messageService.findAll());
+        //model.addAttribute("list", pagnService.list());    
         
         if(bindingResult.hasErrors()){
             return "message";
@@ -78,8 +92,13 @@ public class MainController {
     
     @RequestMapping("/user/{id}")
     public String userPage(@PathVariable("id") int id, Model model){
+        
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        model.addAttribute("retweets", retweetService.getRetweetsByUserName(name));
         model.addAttribute("message", new Message());
-        model.addAttribute("list", messageService.getMessagesByUserId(id));
+        model.addAttribute("list", messageService.getMessagesAndRetweetsByUserId(id));        
+        //model.addAttribute("list", messageService.getMessagesByUserId(id));
         //model.addAttribute("list", pagnService.getMessagesByUserId(id));
         
         return "message";        
@@ -88,16 +107,17 @@ public class MainController {
     @RequestMapping("/message/edit/{id}")
     public String openMessage(@PathVariable("id") int id, Model model){
         model.addAttribute("message", messageService.getMessageById(id));
-        //model.addAttribute("messages", messageService.findAll());
-        model.addAttribute("list", pagnService.list());
+        //model.addAttribute("list", messageService.findAll());
+        //model.addAttribute("list", pagnService.list());
+        
         return "edit";
     }
     
     @RequestMapping(method=RequestMethod.POST, value="message/edit")
     public String editMessage(@Valid @ModelAttribute("message") Message message, BindingResult bindingResult, Model model){       
         
-        //model.addAttribute("messages", messageService.findAll()); 
-        model.addAttribute("list", pagnService.list());
+        //model.addAttribute("list", messageService.findAll()); 
+        //model.addAttribute("list", pagnService.list());
         
         if(bindingResult.hasErrors()){
             return "edit";
@@ -106,6 +126,23 @@ public class MainController {
         messageService.updateMessage(message);         
         return "redirect:/index";
     }
+    
+    @RequestMapping("/message/retweet/{id}")
+    public String addRetweetByMessageId(@PathVariable int id){
+        
+        Retweet retweet = new Retweet();
+        retweet.setMessageid(id);       
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        retweet.setUsername(name);
+        
+        retweetService.addRetweet(retweet);
+        
+        return "redirect:/index";
+    }
+    
+    
     
     //Pagination
     @Autowired

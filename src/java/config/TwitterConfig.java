@@ -9,6 +9,7 @@ import controller.MainController;
 import dao.MessageDao;
 import dao.PagnDao;
 import dao.PagnDaoImpl;
+import dao.RetweetDao;
 import dao.UserDao;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import service.MessageService;
 import service.PagnService;
 import service.PagnServiceImpl;
+import service.RetweetService;
 import service.UserService;
 
 /**
@@ -70,6 +72,20 @@ public class TwitterConfig {
     }
     
     @Bean
+    public RetweetDao retweetDao(){
+        return new RetweetDao();
+    }
+    
+    @Bean
+    public RetweetService retweetService(){
+        return new RetweetService();
+    }
+    
+             
+             
+    //пагинация         
+         
+    @Bean
     public PagnDao pagnDao(){
         return new PagnDaoImpl();
     }
@@ -77,9 +93,9 @@ public class TwitterConfig {
     @Bean
     public PagnService pagnService(){
         return new PagnServiceImpl();
-    }
+    }    
     
-    @Bean
+    @Bean 
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(){
         return new NamedParameterJdbcTemplate(dataSource());
     }

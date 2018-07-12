@@ -19,20 +19,28 @@
     </head>
     <body>
         
-    <form method="post" action="login.htm">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"> 
-        <button type="submit" class="btn btn-primary">Вход</button>
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-4 offset-4 bg-light border">
         
-    <a href="signup">Регистрация</a>
+            <form method="post" action="login.htm">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"> 
+                <button type="submit" class="btn btn-primary">Вход</button>
+            </form>
+
+            <a href="signup">Регистрация</a>
+            
+            </div>
+        </div>
+    </div>
         
      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
