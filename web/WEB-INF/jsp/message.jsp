@@ -5,7 +5,7 @@
 <security:authorize access="hasAnyAuthority('Admin', 'User')"> 
 <security:authentication property="principal.username" var="userName"/>
 <div>
-<form:form commandName="message" method="POST" action="/twitter-project/index.htm">
+<form:form commandName="message" method="POST" action="/twitter-project/message/new">
           
     <form:errors path="text" class="alert alert-danger" element="div"/>            
 

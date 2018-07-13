@@ -47,7 +47,7 @@ public class MainController {
     public String index(Model model){
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         
-        model.addAttribute("retweets", retweetService.getRetweetsByUserName(name));
+        model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
         model.addAttribute("message", new Message());
         model.addAttribute("list", messageService.findAll());        
         //model.addAttribute("list", pagnService.list());
@@ -56,12 +56,13 @@ public class MainController {
     }
     
     //переделать на url "/message/new"
-    @RequestMapping(method=RequestMethod.POST, value="/index")
-    public String addMessage(@Valid @ModelAttribute("message") Message message, BindingResult bindingResult, Model model){       
+    @RequestMapping(method=RequestMethod.POST, value="/message/new")
+    public String addMessage(@Valid @ModelAttribute("message") Message message, 
+        BindingResult bindingResult, Model model){       
         
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         
-        model.addAttribute("retweets", retweetService.getRetweetsByUserName(name));
+        model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
         model.addAttribute("list", messageService.findAll());
         //model.addAttribute("list", pagnService.list());    
         
@@ -95,7 +96,7 @@ public class MainController {
         
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         
-        model.addAttribute("retweets", retweetService.getRetweetsByUserName(name));
+        model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
         model.addAttribute("message", new Message());
         model.addAttribute("list", messageService.getMessagesAndRetweetsByUserId(id));        
         //model.addAttribute("list", messageService.getMessagesByUserId(id));
@@ -140,6 +141,26 @@ public class MainController {
         retweetService.addRetweet(retweet);
         
         return "redirect:/index";
+    }
+    
+    @RequestMapping("/profile")
+    public String profile(Model model){
+        
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("user", userService.findUser(name));
+        
+        return "profile";
+    }
+    
+    @RequestMapping(method=RequestMethod.POST, value="/profile")
+    public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){       
+        
+        if(bindingResult.hasErrors()){
+            return "profile";
+        } 
+        
+        userService.updateUser(user);         
+        return "redirect:/profile";
     }
     
     

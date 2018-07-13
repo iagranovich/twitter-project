@@ -22,6 +22,15 @@ public class Message {
     
     String username;
     boolean isretweet;
+    String nickname;
+    
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;    }
     
 
     public boolean isIsretweet() {

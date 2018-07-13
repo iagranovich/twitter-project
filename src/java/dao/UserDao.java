@@ -6,6 +6,7 @@
 package dao;
 
 import entity.User;
+import mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -24,6 +25,16 @@ public class UserDao {
         
         String sql_role = "INSERT INTO authorities (username, authority) VALUES (?, 'User')";
         jdbcTemplate.update(sql_role, user.getUsername());
+    }
+
+    public User findUser(String name) {
+        String sql = "SELECT id, nickname FROM users WHERE username=?";
+        return jdbcTemplate.queryForObject(sql, new UserMapper(), name);
+    }
+    
+    public void updateUser(User user){
+        String sql = "UPDATE users SET nickname=? WHERE id=?";
+        jdbcTemplate.update(sql, user.getNickname(), user.getId());
     }
     
 }

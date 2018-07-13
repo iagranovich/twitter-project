@@ -21,5 +21,13 @@ public class UserService {
     public void newUser(User user){
         userDao.newUser(user);
     }
+
+    public User findUser(String name) {
+        return userDao.findUser(name);
+    }
+    
+    public void updateUser(User user){
+        userDao.updateUser(user);
+    }
     
 }

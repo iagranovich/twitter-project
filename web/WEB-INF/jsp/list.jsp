@@ -30,7 +30,7 @@
     
     <display:column title="Messages"> 
         
-        <b>${message.username}</b>
+        <b>${message.nickname}</b>
         </br>${message.text}
         
         <c:if test="${message.isretweet}">

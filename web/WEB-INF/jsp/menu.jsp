@@ -4,9 +4,13 @@
 
 <table class="table table-sm bg-light">        
     <td>
-    <nav class="nav">
-
-        <a class="nav-link" href="/twitter-project">ГЛАВНАЯ</a>           
+    <nav class="nav">        
+        
+        <a class="nav-link" href="/twitter-project">ГЛАВНАЯ</a> 
+        
+        <security:authorize access="isAuthenticated()">
+            <a class="nav-link" href="/twitter-project/profile">ПРОФАЙЛ</a>
+        </security:authorize>
 
     </nav>
     </td>

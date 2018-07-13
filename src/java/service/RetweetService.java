@@ -24,7 +24,7 @@ public class RetweetService {
         retweetDao.addRetweet(retweet);
     }
     
-    public List <Integer> getRetweetsByUserName(String name){
+    public List <Integer> getListRetweetsByUserName(String name){
         return retweetDao.getListRetweetsByUserName(name);
     }
 }

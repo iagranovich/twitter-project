@@ -23,18 +23,25 @@
     <!--основной шаблон -->
     <definition  name="index"                   
         template="/WEB-INF/jsp/index.jsp">              
-        <put-attribute name="title" value="Messages"/>     
-        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp"/>              
-        <put-attribute name="message" value=""/> 
-        <put-attribute name="messages" value="/WEB-INF/jsp/list.jsp"/>           
+        <put-attribute name="title" value=""/>     
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp"/>          
+        <put-attribute name="messages" value=""/>           
     </definition>
     
-    <definition  name="message" extends="index">                   
-        <put-attribute name="content" value="/WEB-INF/jsp/message.jsp"/>                  
+    <definition  name="message" extends="index">   
+        <put-attribute name="title" value="Messages"/>                     
+        <put-attribute name="content" value="/WEB-INF/jsp/message.jsp"/> 
+        <put-attribute name="messages" value="/WEB-INF/jsp/list.jsp"/>                 
     </definition>
     
-    <definition  name="edit" extends="index">                   
+    <definition  name="edit" extends="index">
+        <put-attribute name="title" value="Edit message"/>                        
         <put-attribute name="content" value="/WEB-INF/jsp/edit.jsp"/>                  
+    </definition>
+    
+    <definition  name="profile" extends="index"> 
+        <put-attribute name="title" value="Profile"/>                       
+        <put-attribute name="content" value="/WEB-INF/jsp/profile.jsp"/>                  
     </definition>
     
     <definition  name="list"

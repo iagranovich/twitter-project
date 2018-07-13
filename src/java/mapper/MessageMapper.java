@@ -23,6 +23,7 @@ public class MessageMapper implements RowMapper<Message>{
         message.setDate(rs.getString("date"));
         message.setText(rs.getString("text"));
         message.setUsername(rs.getString("user_name"));
+        message.setNickname(rs.getString("nickname"));
         return message;
     }
     

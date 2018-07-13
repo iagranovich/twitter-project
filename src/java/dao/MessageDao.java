@@ -7,7 +7,6 @@ package dao;
 
 import entity.Message;
 import java.util.List;
-import java.util.ArrayList;
 import mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,30 +32,30 @@ public class MessageDao {
     }
     
      public List<Message> finedAll(){
-        String sql = "SELECT * FROM messages";
+        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname "
+                   + "FROM messages AS m, users AS u "
+                   + "WHERE m.user_name=u.username";
         return jdbcTemplate.query(sql, new MessageMapper());
     }
      
     public List <Message> getMessagesByUserId(int id){        
-        String sql ="SELECT messages.id, messages.date, messages.text, messages.user_name " +
-                    "FROM messages INNER JOIN users " +
-                    "ON messages.user_name=users.username " +   
-                    "WHERE users.id=?";
+        String sql ="SELECT m.id, m.date, m.text, m.user_name, u.nickname " +
+                    "FROM messages AS m, users AS u " +
+                    "WHERE m.user_name=u.username AND u.id=?";
         return jdbcTemplate.query(sql, new MessageMapper(), id);
     }
     
     public Message getMessageById(int id){        
-        String sql ="SELECT * FROM messages WHERE id=?";
+        String sql ="SELECT m.id, m.date, m.text, m.user_name, u.nickname "
+                  + "FROM messages AS m, users AS u "
+                  + "WHERE m.user_name=u.username AND m.id=?";
         return jdbcTemplate.queryForObject(sql, new MessageMapper(), id);
     }
     
     public List <Message> getMessagesFromRetweetsByUserId(int id){
-        String sql = "SELECT m.id, m.date, m.text, m.user_name " +
-                     "FROM messages AS m INNER JOIN retweets AS r " +
-                     "ON m.id=r.message_id " +
-                     "WHERE r.user_name=(" +
-                     "SELECT username FROM users WHERE id=?)";
-        
+        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname " +
+                     "FROM messages AS m, retweets AS r, users AS u " +                     
+                     "WHERE m.id=r.message_id AND r.user_name=u.username AND u.id=?";        
         return jdbcTemplate.query(sql, new MessageMapper(), id);
     }    
     
