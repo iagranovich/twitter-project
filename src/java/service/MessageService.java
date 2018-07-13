@@ -7,8 +7,10 @@ package service;
 
 import dao.MessageDao;
 import entity.Message;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.jasper.tagplugins.jstl.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 
@@ -45,12 +47,23 @@ public class MessageService {
         return messageDao.getMessageById(id);
     }  
     
-    public List <Message> getRetweetsByUserId(int id){
-        return messageDao.getMessagesFromRetweetsByUserId(id);
+    public List <Message> getMessagesFromRetweetsByUserId(int id){
+        List<Message> messages = messageDao.getMessagesFromRetweetsByUserId(id);
+        
+        messages.forEach((m) -> {
+            m.setIsretweet(true);
+        });
+        
+        return messages;
     }
     
     public List <Message> getMessagesAndRetweetsByUserId(int id){
-        return messageDao.getMessagesAndRetweetsByUserId(id);
+        
+        List<Message> mr = new ArrayList<>();
+        mr.addAll(getMessagesByUserId(id));
+        mr.addAll(getMessagesFromRetweetsByUserId(id));
+        
+        return mr;       
     }
     
 }

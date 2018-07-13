@@ -21,7 +21,16 @@ public class Message {
     String text;
     
     String username;
+    boolean isretweet;
     
+
+    public boolean isIsretweet() {
+        return isretweet;
+    }
+
+    public void setIsretweet(boolean isretweet) {
+        this.isretweet = isretweet;
+    }    
 
     public String getUsername() {
         return username;

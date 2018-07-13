@@ -58,16 +58,6 @@ public class MessageDao {
                      "SELECT username FROM users WHERE id=?)";
         
         return jdbcTemplate.query(sql, new MessageMapper(), id);
-    }
-    
-    public List <Message> getMessagesAndRetweetsByUserId(int id){
-        
-        List<Message> mr = new ArrayList<>();
-        mr.addAll(getMessagesByUserId(id));
-        mr.addAll(getMessagesFromRetweetsByUserId(id));
-        
-        return mr;
-    }
-    
+    }    
     
 }

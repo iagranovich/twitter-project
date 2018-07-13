@@ -32,7 +32,11 @@
         
         <b>${message.username}</b>
         </br>${message.text}
-        </br><span class="badge badge-primary">retweet</span>
+        
+        <c:if test="${message.isretweet}">
+            </br><span class="badge badge-primary">retweet</span>
+        </c:if>
+        
         
     </display:column>
     
