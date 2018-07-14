@@ -22,8 +22,8 @@ public class MessageDao {
     
     
     public void addMessage(Message message){
-        String sql="INSERT INTO messages (date, text, user_name) VALUES (?,?,?)";
-        jdbcTemplate.update(sql, message.getDate(), message.getText(), message.getUsername());        
+        String sql="INSERT INTO messages (date, text, user_name, reply_id) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sql, message.getDate(), message.getText(), message.getUsername(), message.getReplyid());        
     }
     
     public void updateMessage(Message message){
@@ -57,6 +57,13 @@ public class MessageDao {
                      "FROM messages AS m, retweets AS r, users AS u " +                     
                      "WHERE m.id=r.message_id AND r.user_name=u.username AND u.id=?";        
         return jdbcTemplate.query(sql, new MessageMapper(), id);
-    }    
+    } 
+    
+    public List <Message> getRepliesByMessageId(int id){
+        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname "
+                   + "FROM messages AS m, users AS u "
+                   + "WHERE m.user_name=u.username AND m.reply_id=?";
+        return jdbcTemplate.query(sql, new MessageMapper(), id);
+    }
     
 }

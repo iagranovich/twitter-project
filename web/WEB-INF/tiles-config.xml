@@ -21,10 +21,11 @@
     </definition>
     
     <!--основной шаблон -->
-    <definition  name="index"                   
-        template="/WEB-INF/jsp/index.jsp">              
-        <put-attribute name="title" value=""/>     
-        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp"/>          
+    <definition  name="index" template="/WEB-INF/jsp/index.jsp"> 
+        <put-attribute name="title" value=""/>         
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp"/>    
+        <put-attribute name="text" value=""/>  
+        <put-attribute name="content" value=""/>     
         <put-attribute name="messages" value=""/>           
     </definition>
     
@@ -42,6 +43,13 @@
     <definition  name="profile" extends="index"> 
         <put-attribute name="title" value="Profile"/>                       
         <put-attribute name="content" value="/WEB-INF/jsp/profile.jsp"/>                  
+    </definition>
+    
+    <definition  name="reply" extends="index"> 
+        <put-attribute name="title" value="Reply"/>  
+        <put-attribute name="text" value="/WEB-INF/jsp/reply.jsp"/>                     
+        <put-attribute name="content" value="/WEB-INF/jsp/message.jsp"/>
+        <put-attribute name="messages" value="/WEB-INF/jsp/list.jsp"/>                  
     </definition>
     
     <definition  name="list"

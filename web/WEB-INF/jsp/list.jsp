@@ -12,7 +12,7 @@
 
 <spring:url value="/index" var="listURL"/> <!-- url который мэпится котроллером-->
 
-<display:table name="list" id="message" requestURI="${listURL}" pagesize="10" class="table table-hover"> <!-- 'list'- имя в моделвью-->
+<display:table name="list" id="message" requestURI="${listURL}" pagesize="10" class="table table-hover"> <!-- 'list'- имя атрибута в модели-->
     
     <display:setProperty name="paging.banner.placement" value="both" />
     <display:setProperty name="paging.banner.item_name" value="message" />
@@ -43,20 +43,24 @@
     <display:column title="">
         <security:authorize access="isAuthenticated()">
             <security:authentication property="principal.username" var="userName"/>
+            
         
             <c:if test="${userName == message.username}">    
-                <button class="btn btn-primary" type="button" onClick='location.href="/twitter-project/message/edit/${message.id}"'><i class="far fa-edit"></i></button>
+                <button class="btn btn-warning text-white" type="button" onClick='location.href="/twitter-project/message/edit/${message.id}"'><i class="far fa-edit"></i></button>
             </c:if>  
                 
             <c:choose>
                 <c:when test="${userName != message.username and retweets.contains(message.id)}">    
-                    <button class="btn btn-primary" type="button" disabled><i class="fas fa-retweet"></i></button>
+                    <button class="btn btn-success" type="button" disabled><i class="fas fa-retweet"></i></button>
                 </c:when>
                 <c:when test="${userName != message.username and not retweets.contains(message.id)}">    
-                    <button class="btn btn-primary" type="button" onClick='location.href="/twitter-project/message/retweet/${message.id}"'><i class="fas fa-retweet"></i></button>
+                    <button class="btn btn-success" type="button" onClick='location.href="/twitter-project/message/retweet/${message.id}"'><i class="fas fa-retweet"></i></button>
                 </c:when>                
             </c:choose>
-                
+                    
+            <button class="btn btn-primary" type="button" onClick='location.href="/twitter-project/message/${message.id}"'><i class="fas fa-reply"></i></button>
+              
+            
         </security:authorize>
     </display:column>    
         

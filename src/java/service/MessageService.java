@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
 
 /**
  *
@@ -41,7 +40,7 @@ public class MessageService {
     }
     
     //Можно редактировать только своё сообщение
-   @PostAuthorize("returnObject.username == authentication.name")   
+    //@PostAuthorize("returnObject.username == authentication.name")   
     public Message getMessageById(int id){
         return messageDao.getMessageById(id);
     }  
@@ -63,6 +62,10 @@ public class MessageService {
         mr.addAll(getMessagesFromRetweetsByUserId(id));
         
         return mr;       
+    }
+    
+    public List <Message> getRepliesByMessgeId(int id){
+        return messageDao.getRepliesByMessageId(id);
     }
     
 }

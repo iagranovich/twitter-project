@@ -12,6 +12,7 @@
     <form:textarea path="text" rows="5" cols="50"></form:textarea>      
     
     <form:input type="hidden"  path="username"  value="${userName}"/>
+    <form:input type="hidden"  path="replyid"  value="${parentMessage.id}"/>
 
     <small class="form-text text-muted">
         Максимальная длина сообщения 250 символов.

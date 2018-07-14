@@ -10,6 +10,7 @@ import entity.Retweet;
 import entity.User;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -45,23 +46,23 @@ public class MainController {
         
     @RequestMapping({"/","/index"})
     public String index(Model model){
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
         
+        //для определения сообщений, которые текущий пользователь УЖЕ ретвитнул
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();        
         model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
+
         model.addAttribute("message", new Message());
         model.addAttribute("list", messageService.findAll());        
         //model.addAttribute("list", pagnService.list());
         
         return "message";
-    }
+    }    
     
-    //переделать на url "/message/new"
     @RequestMapping(method=RequestMethod.POST, value="/message/new")
     public String addMessage(@Valid @ModelAttribute("message") Message message, 
-        BindingResult bindingResult, Model model){       
+            BindingResult bindingResult, Model model){       
         
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();        
         model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
         model.addAttribute("list", messageService.findAll());
         //model.addAttribute("list", pagnService.list());    
@@ -71,7 +72,7 @@ public class MainController {
         }  
         
         messageService.addMessage(message);         
-        return "redirect:/message";
+        return "redirect:/index";
     }
     
     @RequestMapping("/login")
@@ -105,6 +106,7 @@ public class MainController {
         return "message";        
     }
     
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping("/message/edit/{id}")
     public String openMessage(@PathVariable("id") int id, Model model){
         model.addAttribute("message", messageService.getMessageById(id));
@@ -114,6 +116,7 @@ public class MainController {
         return "edit";
     }
     
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method=RequestMethod.POST, value="message/edit")
     public String editMessage(@Valid @ModelAttribute("message") Message message, BindingResult bindingResult, Model model){       
         
@@ -143,6 +146,7 @@ public class MainController {
         return "redirect:/index";
     }
     
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping("/profile")
     public String profile(Model model){
         
@@ -151,7 +155,8 @@ public class MainController {
         
         return "profile";
     }
-    
+        
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method=RequestMethod.POST, value="/profile")
     public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){       
         
@@ -161,6 +166,16 @@ public class MainController {
         
         userService.updateUser(user);         
         return "redirect:/profile";
+    }
+    
+    @RequestMapping("/message/{id}")
+    public String profile(@PathVariable int id, Model model){
+                
+        model.addAttribute("parentMessage", messageService.getMessageById(id));
+        model.addAttribute("message", new Message()); //new message for reply
+        model.addAttribute("list", messageService.getRepliesByMessgeId(id));
+        
+        return "reply";
     }
     
     

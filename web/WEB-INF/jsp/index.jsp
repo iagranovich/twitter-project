@@ -22,11 +22,8 @@
         <div class="container">        
         
             <tiles:insertAttribute name="menu"/>
-
-            <tiles:insertAttribute name="content"/>
-
-            </br>  
-
+            <tiles:insertAttribute name="text"/>
+            <tiles:insertAttribute name="content"/></br>
             <tiles:insertAttribute name="messages"/>               
 
 
