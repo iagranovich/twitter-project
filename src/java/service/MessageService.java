@@ -58,15 +58,15 @@ public class MessageService {
     public List <Message> getMessagesAndRetweetsByUserId(int id){
         
         List<Message> mr = new ArrayList<>();
-        mr.addAll(getMessagesByUserId(id));
         mr.addAll(getMessagesFromRetweetsByUserId(id));
+        mr.addAll(getMessagesByUserId(id));        
         
         return mr;       
     }
     
-    public List <Message> getRepliesByMessgeId(int id){
-        return messageDao.getRepliesByMessageId(id);
-    }
+//    public List <Message> getRepliesByMessgeId(int id){
+//        return messageDao.getRepliesByMessageId(id);
+//    }
     
     public List <Message> findAllMessagesNestedTree(){
         return messageDao.findAllMessagesNestedTree();

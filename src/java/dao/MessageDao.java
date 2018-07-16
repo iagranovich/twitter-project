@@ -55,18 +55,18 @@ public class MessageDao {
     }
     
     public List <Message> getMessagesFromRetweetsByUserId(int id){
-        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname " +
-                     "FROM messages AS m, retweets AS r, users AS u " +                     
-                     "WHERE m.id=r.message_id AND r.user_name=u.username AND u.id=?";        
+        String sql = "SELECT m.id, m.date, m.text, m.user_name, u1.nickname " +
+                     "FROM messages AS m, retweets AS r, users AS u1, users AS u2 " +                     
+                     "WHERE m.id=r.message_id AND m.user_name=u1.username AND r.user_name=u2.username AND u2.id=?";        
         return jdbcTemplate.query(sql, new MessageMapper(), id);
     } 
     
-    public List <Message> getRepliesByMessageId(int id){
-        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname "
-                   + "FROM messages AS m, users AS u "
-                   + "WHERE m.user_name=u.username AND m.reply_id=?";
-        return jdbcTemplate.query(sql, new MessageMapper(), id);
-    }
+//    public List <Message> getRepliesByMessageId(int id){
+//        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname "
+//                   + "FROM messages AS m, users AS u "
+//                   + "WHERE m.user_name=u.username AND m.reply_id=?";
+//        return jdbcTemplate.query(sql, new MessageMapper(), id);
+//    }
     
     public List <Message> findAllMessagesNestedTree(){
         String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname, " +
