@@ -51,15 +51,15 @@ public class MainController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();        
         model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
 
-        model.addAttribute("message", new Message());
-        model.addAttribute("list", messageService.findAll());        
+        model.addAttribute("newmessage", new Message());
+        model.addAttribute("list", messageService.findAllMessagesNestedTree());        
         //model.addAttribute("list", pagnService.list());
         
         return "message";
     }    
     
     @RequestMapping(method=RequestMethod.POST, value="/message/new")
-    public String addMessage(@Valid @ModelAttribute("message") Message message, 
+    public String addMessage(@Valid @ModelAttribute("newmessage") Message message, 
             BindingResult bindingResult, Model model){       
         
         String name = SecurityContextHolder.getContext().getAuthentication().getName();        
@@ -71,7 +71,7 @@ public class MainController {
             return "message";
         }  
         
-        messageService.addMessage(message);         
+        messageService.addMassageNestedTree(message);         
         return "redirect:/index";
     }
     
@@ -98,7 +98,7 @@ public class MainController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         
         model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
-        model.addAttribute("message", new Message());
+        model.addAttribute("newmessage", new Message());
         model.addAttribute("list", messageService.getMessagesAndRetweetsByUserId(id));        
         //model.addAttribute("list", messageService.getMessagesByUserId(id));
         //model.addAttribute("list", pagnService.getMessagesByUserId(id));
@@ -169,11 +169,18 @@ public class MainController {
     }
     
     @RequestMapping("/message/{id}")
-    public String profile(@PathVariable int id, Model model){
-                
-        model.addAttribute("parentMessage", messageService.getMessageById(id));
-        model.addAttribute("message", new Message()); //new message for reply
-        model.addAttribute("list", messageService.getRepliesByMessgeId(id));
+    public String reply(@PathVariable int id, Model model){
+        
+        Message newMessage = new Message(); //new message for reply
+        Message parentMessage = messageService.getMessageById(id);
+        //newMessage.setLeftkey(parentMessage.getLeftkey());
+        //newMessage.setRightkey(parentMessage.getRightkey());
+        //newMessage.setLevel(parentMessage.getLevel());
+        
+        model.addAttribute("parentMessage", parentMessage);
+        model.addAttribute("newmessage", newMessage); 
+        //model.addAttribute("list", messageService.getRepliesByMessgeId(id));
+        model.addAttribute("list", messageService.findAllMessagesNestedTree());
         
         return "reply";
     }

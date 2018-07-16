@@ -5,7 +5,7 @@
 <security:authorize access="hasAnyAuthority('Admin', 'User')"> 
 <security:authentication property="principal.username" var="userName"/>
 <div>
-<form:form commandName="message" method="POST" action="/twitter-project/message/new">
+<form:form commandName="newmessage" method="POST" action="/twitter-project/message/new">
           
     <form:errors path="text" class="alert alert-danger" element="div"/>            
 
@@ -13,6 +13,10 @@
     
     <form:input type="hidden"  path="username"  value="${userName}"/>
     <form:input type="hidden"  path="replyid"  value="${parentMessage.id}"/>
+    
+    <form:input type="hidden"  path="level"  value="${parentMessage.level}"/>
+    <form:input type="hidden"  path="leftkey"  value="${parentMessage.leftkey}"/>
+    <form:input type="hidden"  path="rightkey"  value="${parentMessage.rightkey}"/>
 
     <small class="form-text text-muted">
         Максимальная длина сообщения 250 символов.

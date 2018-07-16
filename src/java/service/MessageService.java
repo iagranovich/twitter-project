@@ -68,4 +68,14 @@ public class MessageService {
         return messageDao.getRepliesByMessageId(id);
     }
     
+    public List <Message> findAllMessagesNestedTree(){
+        return messageDao.findAllMessagesNestedTree();
+    }
+    
+    public void addMassageNestedTree(Message message){
+        Date date = new Date();
+        message.setDate(date.toString());
+        messageDao.addMassageNestedTree(message);
+    }
+    
 }

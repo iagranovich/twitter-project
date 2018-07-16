@@ -25,6 +25,33 @@ public class Message {
     String nickname;
     int replyid;
     
+    int level; //для NestedTree
+    int rightkey; //для NestedTree
+    int leftkey; //для NestedTree
+
+    public int getRightkey() {
+        return rightkey;
+    }
+
+    public void setRightkey(int rightkey) {
+        this.rightkey = rightkey;
+    }
+
+    public int getLeftkey() {
+        return leftkey;
+    }
+
+    public void setLeftkey(int leftkey) {
+        this.leftkey = leftkey;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }    
 
     public int getReplyid() {
         return replyid;

@@ -14,8 +14,8 @@ import org.springframework.jdbc.core.RowMapper;
  *
  * @author user129
  */
-public class MessageMapper implements RowMapper<Message>{
-
+public class MessageTreeMapper implements RowMapper<Message>{
+    
     @Override
     public Message mapRow(ResultSet rs, int i) throws SQLException {
         Message message = new Message();
@@ -23,7 +23,10 @@ public class MessageMapper implements RowMapper<Message>{
         message.setDate(rs.getString("date"));
         message.setText(rs.getString("text"));
         message.setUsername(rs.getString("user_name"));
-        message.setNickname(rs.getString("nickname"));        
+        message.setNickname(rs.getString("nickname"));
+        message.setLevel(rs.getInt("level"));
+        message.setLeftkey(rs.getInt("left_key"));
+        message.setRightkey(rs.getInt("right_key"));
         return message;
     }
     

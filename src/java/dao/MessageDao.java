@@ -8,6 +8,7 @@ package dao;
 import entity.Message;
 import java.util.List;
 import mapper.MessageMapper;
+import mapper.MessageTreeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -39,17 +40,18 @@ public class MessageDao {
     }
      
     public List <Message> getMessagesByUserId(int id){        
-        String sql ="SELECT m.id, m.date, m.text, m.user_name, u.nickname " +
+        String sql ="SELECT m.id, m.date, m.text, m.user_name, u.nickname " +                           
                     "FROM messages AS m, users AS u " +
                     "WHERE m.user_name=u.username AND u.id=?";
         return jdbcTemplate.query(sql, new MessageMapper(), id);
     }
     
     public Message getMessageById(int id){        
-        String sql ="SELECT m.id, m.date, m.text, m.user_name, u.nickname "
+        String sql ="SELECT m.id, m.date, m.text, m.user_name, u.nickname, "
+                         + "m.level, m.left_key, m.right_key "
                   + "FROM messages AS m, users AS u "
                   + "WHERE m.user_name=u.username AND m.id=?";
-        return jdbcTemplate.queryForObject(sql, new MessageMapper(), id);
+        return jdbcTemplate.queryForObject(sql, new MessageTreeMapper(), id);
     }
     
     public List <Message> getMessagesFromRetweetsByUserId(int id){
@@ -64,6 +66,27 @@ public class MessageDao {
                    + "FROM messages AS m, users AS u "
                    + "WHERE m.user_name=u.username AND m.reply_id=?";
         return jdbcTemplate.query(sql, new MessageMapper(), id);
+    }
+    
+    public List <Message> findAllMessagesNestedTree(){
+        String sql = "SELECT m.id, m.date, m.text, m.user_name, u.nickname, " +
+                            "m.level, m.left_key, m.right_key " +
+                     "FROM messages AS m, users AS u " +
+                     "WHERE m.user_name=u.username " + 
+                     "ORDER BY m.left_key";
+        return jdbcTemplate.query(sql, new MessageTreeMapper());
+    }
+    
+    public void addMassageNestedTree(Message message){
+        String sql = "UPDATE messages SET left_key = left_key + 2, right_key = right_key + 2 WHERE left_key > ?";        
+        jdbcTemplate.update(sql, message.getRightkey());
+        
+        sql = "UPDATE messages SET right_key = right_key + 2 WHERE right_key >= ? AND left_key < ?";        
+        jdbcTemplate.update(sql, message.getRightkey(), message.getRightkey());
+        
+        sql = "INSERT INTO messages SET left_key=?, right_key=?, level=?, date=?, user_name=?, text=?";
+        jdbcTemplate.update(sql, message.getRightkey(), message.getRightkey()+1, message.getLevel()+1, 
+                message.getDate(), message.getUsername(), message.getText());
     }
     
 }
