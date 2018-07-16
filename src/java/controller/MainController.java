@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import service.MessageService;
-import service.PagnService;
 import service.RetweetService;
 import service.UserService;
 
@@ -53,8 +51,7 @@ public class MainController {
 
         model.addAttribute("newmessage", new Message());
         model.addAttribute("list", messageService.findAllMessagesNestedTree());        
-        //model.addAttribute("list", pagnService.list());
-        
+                
         return "message";
     }    
     
@@ -65,8 +62,7 @@ public class MainController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();        
         model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
         model.addAttribute("list", messageService.findAll());
-        //model.addAttribute("list", pagnService.list());    
-        
+                
         if(bindingResult.hasErrors()){
             return "message";
         }  
@@ -101,8 +97,7 @@ public class MainController {
         model.addAttribute("newmessage", new Message());
         model.addAttribute("list", messageService.getMessagesAndRetweetsByUserId(id));        
         //model.addAttribute("list", messageService.getMessagesByUserId(id));
-        //model.addAttribute("list", pagnService.getMessagesByUserId(id));
-        
+                
         return "message";        
     }
     
@@ -111,8 +106,7 @@ public class MainController {
     public String openMessage(@PathVariable("id") int id, Model model){
         model.addAttribute("message", messageService.getMessageById(id));
         //model.addAttribute("list", messageService.findAll());
-        //model.addAttribute("list", pagnService.list());
-        
+                
         return "edit";
     }
     
@@ -121,8 +115,7 @@ public class MainController {
     public String editMessage(@Valid @ModelAttribute("message") Message message, BindingResult bindingResult, Model model){       
         
         //model.addAttribute("list", messageService.findAll()); 
-        //model.addAttribute("list", pagnService.list());
-        
+                
         if(bindingResult.hasErrors()){
             return "edit";
         }  
@@ -169,34 +162,13 @@ public class MainController {
     }
     
     @RequestMapping("/message/{id}")
-    public String reply(@PathVariable int id, Model model){
+    public String reply(@PathVariable int id, Model model){        
         
-        Message newMessage = new Message(); //new message for reply
-        Message parentMessage = messageService.getMessageById(id);
-        //newMessage.setLeftkey(parentMessage.getLeftkey());
-        //newMessage.setRightkey(parentMessage.getRightkey());
-        //newMessage.setLevel(parentMessage.getLevel());
-        
-        model.addAttribute("parentMessage", parentMessage);
-        model.addAttribute("newmessage", newMessage); 
-        //model.addAttribute("list", messageService.getRepliesByMessgeId(id));
+        model.addAttribute("parentMessage", messageService.getMessageById(id));
+        model.addAttribute("newmessage",  new Message());         
         model.addAttribute("list", messageService.findAllMessagesNestedTree());
         
         return "reply";
-    }
-    
-    
-    
-    //Pagination
-    @Autowired
-    PagnService pagnService;    
-    
-    @RequestMapping("/list")
-    public ModelAndView list(){
-        ModelAndView model = new ModelAndView("list");
-        model.addObject("list", pagnService.list());       
-        
-        return model;
-    }
+    }    
     
 }

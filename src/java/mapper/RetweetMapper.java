@@ -15,15 +15,15 @@ import org.springframework.jdbc.core.RowMapper;
  * @author user129
  */
 
-public class RetweetMapper implements RowMapper<Retweet>{
-    
-    @Override
-    public Retweet mapRow(ResultSet rs, int i) throws SQLException{
-        Retweet retweet = new Retweet();
-        retweet.setUsername(rs.getString("user_name"));
-        retweet.setMessageid(rs.getInt("message_id"));
-        return retweet;
-    }
-}
+//public class RetweetMapper implements RowMapper<Retweet>{
+//    
+//    @Override
+//    public Retweet mapRow(ResultSet rs, int i) throws SQLException{
+//        Retweet retweet = new Retweet();
+//        retweet.setUsername(rs.getString("user_name"));
+//        retweet.setMessageid(rs.getInt("message_id"));
+//        return retweet;
+//    }
+//}
 
 

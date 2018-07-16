@@ -51,7 +51,7 @@
         
         
         <c:if test="${message.isretweet}">
-            </br><span class="badge badge-primary">retweet</span>
+            </br><span class="badge badge-primary">retweet</span></br>
         </c:if>    
             
             
