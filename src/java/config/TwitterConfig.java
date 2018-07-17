@@ -9,6 +9,7 @@ import controller.MainController;
 import dao.MessageDao;
 import dao.RetweetDao;
 import dao.UserDao;
+import dao.UserInfoDao;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import service.MessageService;
 import service.RetweetService;
+import service.UserInfoService;
 import service.UserService;
 
 /**
@@ -74,7 +76,17 @@ public class TwitterConfig {
     @Bean
     public RetweetService retweetService(){
         return new RetweetService();
-    }    
+    }   
+    
+    @Bean
+    public UserInfoService userInfoService(){
+        return new UserInfoService();
+    }
+    
+    @Bean
+    public UserInfoDao userInfoDao(){
+        return new UserInfoDao();
+    }
             
 }
     

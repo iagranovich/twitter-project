@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import service.MessageService;
 import service.RetweetService;
+import service.UserInfoService;
 import service.UserService;
 
 /**
@@ -41,13 +42,17 @@ public class MainController {
     @Autowired
     RetweetService retweetService;
     
+    @Autowired
+    UserInfoService userInfoService;
+    
         
     @RequestMapping({"/","/index"})
     public String index(Model model){
         
         //для определения сообщений, которые текущий пользователь УЖЕ ретвитнул
         String name = SecurityContextHolder.getContext().getAuthentication().getName();        
-        model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
+        //model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
+        model.addAttribute("retweets", userInfoService.getListRetweetsByUserName(name));
 
         model.addAttribute("newmessage", new Message());
         model.addAttribute("list", messageService.findAllMessagesNestedTree());        
@@ -60,7 +65,7 @@ public class MainController {
             BindingResult bindingResult, Model model){       
         
         String name = SecurityContextHolder.getContext().getAuthentication().getName();        
-        model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
+        model.addAttribute("retweets", userInfoService.getListRetweetsByUserName(name));
         model.addAttribute("list", messageService.findAll());
                 
         if(bindingResult.hasErrors()){
@@ -93,7 +98,7 @@ public class MainController {
         
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         
-        model.addAttribute("retweets", retweetService.getListRetweetsByUserName(name));
+        model.addAttribute("retweets", userInfoService.getListRetweetsByUserName(name));
         model.addAttribute("newmessage", new Message());
         model.addAttribute("list", messageService.getMessagesAndRetweetsByUserId(id));        
         //model.addAttribute("list", messageService.getMessagesByUserId(id));

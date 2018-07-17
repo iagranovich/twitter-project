@@ -5,8 +5,7 @@
  */
 package service;
 
-import dao.RetweetDao;
-import entity.Retweet;
+import dao.UserInfoDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,14 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author user129
  */
-public class RetweetService {
+public class UserInfoService {
     
     @Autowired
-    RetweetDao retweetDao;
+    UserInfoDao userInfoDao;
     
+    public List <Integer> getListRetweetsByUserName(String name){
+        return userInfoDao.getListRetweetsByUserName(name);
+    }
     
-    public void addRetweet(Retweet retweet){
-        retweetDao.addRetweet(retweet);
-    }    
-   
+    public List <Integer> getListLikesByUserName(String name){
+        
+        return null;
+    }
+    
 }

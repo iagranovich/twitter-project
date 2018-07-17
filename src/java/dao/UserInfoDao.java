@@ -5,7 +5,6 @@
  */
 package dao;
 
-import entity.Retweet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,14 +13,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
  *
  * @author user129
  */
-public class RetweetDao {
+public class UserInfoDao {
     
     @Autowired
     JdbcTemplate jdbcTemplate;
     
-    public void addRetweet(Retweet retweet){
-        String sql = "INSERT INTO retweets (user_name, message_id) VALUES (?,?)";
-        jdbcTemplate.update(sql, retweet.getUsername(), retweet.getMessageid());
-    }    
+    public List<Integer> getListRetweetsByUserName(String name){
+        String sql = "SELECT message_id FROM retweets WHERE user_name=?";
+        return jdbcTemplate.queryForList(sql, Integer.class, name);
+    }
+    
+    public List <Integer> getListLikesByUserName(String name){
+        
+        return null;
+    }
     
 }
