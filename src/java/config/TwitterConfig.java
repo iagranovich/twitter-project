@@ -41,7 +41,7 @@ public class TwitterConfig {
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/twitter_project");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/twitter_project?useUnicode=yes&characterEncoding=UTF-8");
         dataSource.setUsername("admin");
         dataSource.setPassword("admin");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");

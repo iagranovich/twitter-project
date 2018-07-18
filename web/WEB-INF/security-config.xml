@@ -36,9 +36,8 @@
     <!-- 
         Если храним пользователей в БД. 
         Используются дефолтные запросы,
-        но можно и переопределить.
-    -->
-    
+        но можно их переопределить.
+    -->    
     <authentication-manager>
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"/>                
